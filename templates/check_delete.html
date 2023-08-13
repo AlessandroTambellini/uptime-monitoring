@@ -1,0 +1,25 @@
+<h1 class="visually-hidden">check</h1>
+
+<form id="checksDelete" action="/api/checks" method="DELETE">
+    <!-- because in form are allowed just GET and POST method -->
+    <input type="hidden" name="_method" value="DELETE" />
+    <div class="formError"></div>
+
+    <input class="hiddenIdInput" type="hidden" name="uid" />
+
+    <label for="check-id-input">Check ID</label>
+    <input id="check-id-input" class="displayIdInput" type="text" name="displayId" disabled />
+
+    <label for="website-state-input">Current State</label>
+    <input id="website-state-input" class="displayStateInput" type="text" name="displayState" disabled />
+
+    <label for="protocol-option">Protocol</label>
+    <select id="protocol-option" class="protocolInput" name="protocol">
+        <option value="https" selected disabled>https://</option>
+    </select>
+
+    <label for="domain-name-input">domain name</label>
+    <input id="domain-name-input" class="urlInput" type="text" name="url" placeholder="mywebsite.com/my/path" />
+
+    <button type="submit">delete</button>
+</form>

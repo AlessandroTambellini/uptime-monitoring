@@ -1,0 +1,11 @@
+{
+    "id": "4fis9sxaf05auxhc976y",
+    "userPhone": "33333333333",
+    "protocol": "https",
+    "url": "facebook.com",
+    "method": "get",
+    "successCodes": [
+        200,
+        201
+    ]
+}

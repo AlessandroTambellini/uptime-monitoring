@@ -1,0 +1,49 @@
+<h1 class="visually-hidden">create check</h1>
+<form id="checkCreate" action="api/checks" method="POST">
+    <div class="formError"></div>
+    <label for="protocol-input">Protocol</label>
+    <input id="protocol-input" type="text" disabled placeholder="https">
+
+    <label for="url-input">domain name</label></br>
+    <input id="url-input" type="text" name="url" placeholder="mywebsite.com/my/path" />
+
+    <fieldset class="test">
+        <legend>success codes (HTTPS codes that should represent the "up" state)</legend>
+        <label for="200">200</label>
+        <input type="checkbox" id="200" class="multiselect intval" name="successCodes" value="200" checked>
+
+        <label for="201">201</label>
+        <input type="checkbox" id="201" class="multiselect intval" name="successCodes" value="201" checked>
+
+        <label for="301">301</label>
+        <input type="checkbox" id="301" class="multiselect intval" name="successCodes" value="301">
+
+        <label for="302">302</label>
+        <input type="checkbox" id="302" class="multiselect intval" name="successCodes" value="302">
+
+        <label for="400">400</label>
+        <input type="checkbox" id="400" class="multiselect intval" name="successCodes" value="400">
+
+        <label for="403">403</label>
+        <input type="checkbox" id="403" class="multiselect intval" name="successCodes" value="403">
+
+        <label for="404">404</label>
+        <input type="checkbox" id="404" class="multiselect intval" name="successCodes" value="404">
+
+        <label for="406">406</label>
+        <input type="checkbox" id="406" class="multiselect intval" name="successCodes" value="406">
+
+        <label for="500">500</label>
+        <input type="checkbox" id="500" class="multiselect intval" name="successCodes" value="500">
+    </fieldset>
+
+    <label for="method-option">HTTPS method</label>
+    <select id="method-option" name="https-method">
+        <!-- <option value="post">POST</option> -->
+        <option value="get" selected>GET</option>
+        <!--  <option value="put">PUT</option>-->
+        <!--  <option value="delete">DELETE</option>-->
+    </select>
+
+    <button type="submit">Get Started</button>
+</form>

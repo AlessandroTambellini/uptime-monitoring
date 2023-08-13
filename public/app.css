@@ -1,0 +1,462 @@
+/*
+ * CSS Styles for Application
+ *
+ */
+
+/* general setup START */
+:root {
+    /* START brand-specific */
+    --clr-primary: 216, 57%, 30%;
+    --clr-secondary: 0, 0%, 10%;
+    --clr-right: 144, 57%, 30%;
+    --clr-wrong: 0, 57%, 50%;
+    --clr-neutral-bgr: 0, 0%, 94%;
+    --clr-neutral-txt: 0, 0%, 50%;
+
+    --ff-primary: -apple-system;
+    --ff-fallback: BlinkMacSystemFont;
+    /* START brand-specific */
+
+    --fw-regular: 400;
+    --fw-semi-bold: 500;
+    --fw-bold: 700;
+
+    --fs-small: 0.875rem;
+    --fs-medium: 1rem;
+    --fs-big: 1.5rem;
+    --fs-huge: 2.5rem;
+
+    --size-100: 0.25rem;
+    --size-200: 0.5rem;
+    --size-400: 1rem;
+    --size-600: 2rem;
+    --size-800: 3rem;
+}
+
+@media (min-width: 35em) {
+    :root {
+        --fs-big: 2rem;
+        --fs-huge: 3.5rem;
+        --fs-medium: 1.125rem;
+    }
+}
+
+@media (min-width: 45em) {
+    :root {
+        --fs-big: 2.5rem;
+        --fs-huge: 4.5rem;
+        --fs-medium: 1.25rem;
+        --fs-small: 1rem;
+    }
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+}
+
+html:focus-within {
+    scroll-behavior: smooth;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+}
+
+p,
+li {
+    max-width: 60ch;
+}
+
+
+ul {
+    list-style-type: none;
+}
+
+a,
+button {
+    cursor: pointer;
+}
+
+input,
+select,
+option {
+    width: 100%;
+}
+
+/* Hidden element, but accessible for assistive technologies */
+.visually-hidden {
+    position: absolute;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+
+/* general setup END */
+
+body {
+    margin-inline: auto;
+    font-family: var(--ff-primary), var(--ff-fallback), sans-serif;
+    width: min(650px, 100% - (var(--size-400) * 2));
+}
+
+button {
+    color: hsl(var(--clr-neutral-bgr));
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: var(--fw-bold);
+    padding: calc(var(--fs-small) / 2) var(--fs-small);
+    display: inline-block;
+}
+
+form label {
+    text-transform: uppercase;
+    font-weight: var(--fw-semi-bold);
+    font-size: var(--fs-small);
+    color: hsl(var(--clr-secondary));
+    display: inline-block;
+    margin-top: var(--fs-medium);
+}
+
+hr {
+    color: hsl(var(--clr-neutral-bgr));
+    margin: var(--fs-big);
+}
+
+/*
+ *  START - header and footer of the website
+ *
+ */
+
+#website-navigation {
+    text-transform: uppercase;
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-medium);
+}
+
+#website-navigation nav {
+    display: flex;
+    align-items: center;
+    column-gap: var(--fs-small);
+}
+
+#website-navigation nav a {
+    text-decoration: none;
+    color: hsl(var(--clr-secondary));
+
+}
+
+#website-navigation nav a.loggedIn {
+    display: none;
+}
+
+body.loggedIn #website-navigation nav a.loggedIn {
+    display: inline-block;
+}
+
+body.loggedIn #website-navigation nav a.loggedOut {
+    display: none;
+}
+
+#website-footer {
+    width: 100%;
+    padding: var(--fs-huge);
+}
+
+#website-footer nav {
+    display: flex;
+    justify-content: center;
+    column-gap: var(--fs-medium);
+}
+
+#website-footer nav a {
+    font-size: var(--fs-small);
+}
+
+/*
+ *  END - header and footer of the website
+ *
+ */
+
+
+/* 
+ *  START - Index 
+ *
+ */
+
+#index h1 {
+    font-size: var(--fs-huge);
+}
+
+#index>p {
+    margin-inline: auto;
+    text-align: center;
+}
+
+/* if exists, idk for now */
+#index-body.loggedIn {
+    display: none;
+}
+
+body.loggedIn #index-body.loggedIn {
+    display: block;
+}
+
+body.loggedIn #index-body.loggedOut {
+    display: none;
+}
+
+/* 
+ *  END - Index 
+ *
+ */
+
+
+
+.warning {
+    font-style: italic;
+    color: #c83737;
+    font-size: 17px;
+    text-align: center;
+    line-height: 150%;
+    padding: 0 0 20px 0;
+}
+
+/* Form Styling for Account Creation page and others */
+.formWrapper {
+    margin: 0 auto;
+    max-width: 500px;
+    padding: 15px;
+}
+
+.formError {
+    display: none;
+    background-color: #c83737;
+    font-style: italic;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin: 0 0 15px 0;
+    text-align: center;
+    border-color: #d87070;
+    border-width: 2px;
+    border-style: solid;
+}
+
+.formSuccess {
+    display: none;
+    background-color: #217844;
+    font-style: italic;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin: 0 0 15px 0;
+    text-align: center;
+    border-color: #35c06d;
+    border-width: 2px;
+    border-style: solid;
+}
+
+/* 
+ * START - checks dashboard
+ *
+ */
+
+table {
+    width: 100%;
+}
+
+/* table * {
+    border: 2px solid red;
+} */
+
+tr {
+    width: 100%;
+}
+
+th {
+    text-transform: uppercase;
+    font-weight: var(--fw-bold);
+    border-color: hsl(var(--clr-secondary));
+    border-style: dotted;
+    padding: var(--fs-small);
+    background-color: hsl(var(--clr-neutral-bgr));
+}
+
+td {
+    padding: var(--fs-small);
+}
+
+td a,
+td a:hover,
+td a:active {
+    color: hsl(var(--clr-primary));
+    font-weight: var(--fw-semi-bold);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.loader {
+    border: var(--fs-small) solid hsl(var(--clr-neutral-bgr));
+    border-radius: 50%;
+    width: var(--fs-big);
+    height: var(--fs-big);
+    animation: spin 2s linear infinite;
+    margin-inline: auto;
+}
+
+.loader.up {
+    border-top: var(--fs-small) solid hsl(var(--clr-right));
+}
+
+.loader.down {
+    border-top: var(--fs-small) solid hsl(var(--clr-wrong));
+}
+
+.loader.unknown {
+    border-top: var(--fs-small) solid hsl(var(--clr-neutral-txt));
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.tooltip {
+    position: relative;
+    text-transform: lowercase;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: hsl(var(--clr-primary));
+    font-size: var(--fs-small);
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    font-family: var(--ff-primary), var(--ff-fallback), sans-serif;
+    visibility: hidden;
+    background-color: hsl(var(--clr-primary));
+    color: hsl(var(--clr-neutral-bgr));
+    position: absolute;
+    animation: none !important;
+    z-index: 1;
+}
+
+.tooltip .tooltiptext>div {
+    padding: var(--fs-medium);
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+/*  */
+
+#no-checks-msg td {
+    text-align: center;
+    font-style: italic;
+    font-size: var(--fs-medium);
+}
+
+#no-checks-msg {
+    display: none;
+}
+
+#create-check-wrapper {
+    display: none;
+    text-align: center;
+}
+
+#create-check-wrapper>* {
+    margin-inline: auto;
+}
+
+#create-check-wrapper a {
+    text-decoration: none;
+    font-weight: var(--fw-bold);
+    color: hsl(var(--clr-right));
+    font-size: var(--fs-medium);
+}
+
+#create-check-wrapper p {
+    font-size: var(--fs-small);
+    font-style: italic;
+    color: hsl(var(--clr-neutral-txt));
+}
+
+
+/* 
+ *  END - checks dashboard
+ *
+ */
+
+
+/* 
+ *  START - check_delete
+ *
+ */
+
+#checksDelete button {
+    background-color: hsl(var(--clr-primary));
+}
+
+/* 
+ *  END - check_delete
+ *
+ */
+
+
+/* 
+ *  START - check_create
+ *
+ */
+
+
+#checkCreate fieldset {
+    margin-top: var(--fs-medium);
+}
+
+#checkCreate fieldset label {
+    display: inline;
+    margin-left: var(--fs-small)
+}
+
+#checkCreate fieldset input {
+    display: inline;
+    width: fit-content;
+}
+
+#checkCreate button {
+    background-color: hsl(var(--clr-primary));
+    margin-top: var(--fs-medium);
+}
+
+/* 
+*  END - check_create
+*
+ */

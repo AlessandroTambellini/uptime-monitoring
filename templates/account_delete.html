@@ -1,0 +1,10 @@
+<h1>delete your account</h1>
+
+<form id="account-delete" action="/api/users" method="DELETE">
+    <input type="hidden" name="_method" value="DELETE" />
+    <div class="formError"></div>
+
+    <input class="hiddenPhoneNumberInput" type="hidden" name="phone" />
+
+    <button type="submit">Delete Account</button>
+</form>

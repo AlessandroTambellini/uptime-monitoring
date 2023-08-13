@@ -1,0 +1,11 @@
+{
+    "id": "6rx8b0tnamtea26kgcw8",
+    "userPhone": "3333333333",
+    "protocol": "https",
+    "url": "twitter.com",
+    "method": "get",
+    "successCodes": [
+        200,
+        201
+    ]
+}

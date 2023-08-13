@@ -1,0 +1,38 @@
+<h1 class="visually-hidden">dashboard</h1>
+
+<table id="checks-list-table">
+    <tr>
+        <th>Method</th>
+        <th>Protocol</th>
+        <th>URL</th>
+        <th>State (
+            <div class="tooltip">i
+                <div class="tooltiptext">
+                    <div>
+                        <div class="loader up"></div>
+                        <p>up</p>
+                    </div>
+                    <div>
+                        <div class="loader down"></div>
+                        <p>down</p>
+                    </div>
+                    <div>
+                        <div class="loader unknown"></div>
+                        <p>unknown</p>
+                    </div>
+                </div>
+            </div>
+            )
+        </th>
+        <th>Details</th>
+    </tr>
+    <tr id="no-checks-msg">
+        <td colspan="5">you have no checks</td>
+    </tr>
+
+</table>
+
+<div id="create-check-wrapper">
+    <a href="checks/create">[ + ]</a>
+    <p>( you may create up to 5 checks )</p>
+</div>
