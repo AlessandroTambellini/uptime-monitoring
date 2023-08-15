@@ -274,97 +274,74 @@ app.loadDataOnPage = function () {
 
 // Load the dashboard page specifically
 app.loadChecksListPage = function () {
-    // Get the phone number from the current token, or log the user out if none is there
-    var phone = typeof (app.config.sessionToken.phone) == 'string' ? app.config.sessionToken.phone : false;
-
-    if (!phone)
-        app.logUserOut();
 
     const searchParams = {
-        'phone': phone
+        "phone": app.config.sessionToken.phone
     }
+
     app.client.request(undefined, 'api/users', 'GET', searchParams, undefined, function (statusCode, responsePayload) {
-        if (statusCode == 200) {
+        if (statusCode !== 200)
+            return app.logUserOut();
 
-            // Determine how many checks the user has
-            var allChecks = typeof (responsePayload.checks) == 'object' && responsePayload.checks instanceof Array && responsePayload.checks.length > 0 ? responsePayload.checks : [];
-            if (allChecks.length > 0) {
+        const { checks } = responsePayload;
+        if (!checks || checks.length === 0) {
+            document.getElementById("no-checks-msg").style.display = 'table-row';
+            document.getElementById("create-check-wrapper").style.display = 'block';
+            return;
+        }
 
-                // Show each created check as a new row in the table
-                allChecks.forEach(function (checkId) {
-                    // Get the data for the check
-                    const newSearchParams = {
-                        'id': checkId
-                    }
-                    app.client.request(undefined, 'api/checks', 'GET', newSearchParams, undefined, function (statusCode, responsePayload) {
-                        if (statusCode == 200) {
-                            const { method, protocol, url, state, id } = responsePayload;
-                            const table = document.getElementById("checks-list-table");
-                            const tr = table.insertRow(-1);
-
-                            tr.insertCell(0).innerText = method;
-                            tr.insertCell(1).innerText = protocol;
-                            tr.insertCell(2).innerText = url;
-                            tr.insertCell(3).innerHTML = `<div class="loader animated-loader ${state === "up" ? "up" : state === "down" ? "down" : "unknown"}"></div>`;
-                            tr.insertCell(4).innerHTML = `<a href=/checks/delete?id=${id}>View / Delete</a>`;
-
-                        } else {
-                            console.log("Error trying to load check ID: ", checkId);
-                        }
-                    });
-                });
-
-                if (allChecks.length < 5) {
-                    // Show the createCheck CTA
-                    document.getElementById("create-check-wrapper").style.display = 'block';
-                }
-
-            } else {
-                // Show 'you have no checks' message
-                document.getElementById("no-checks-msg").style.display = 'table-row';
-
-                // Show the createCheck CTA
-                document.getElementById("create-check-wrapper").style.display = 'block';
+        // load data for each check
+        checks.forEach(function (checkId) {
+            const newSearchParams = {
+                'id': checkId
             }
-        } else {
-            app.logUserOut();
+            app.client.request(undefined, 'api/checks', 'GET', newSearchParams, undefined, function (statusCode, responsePayload) {
+                if (statusCode !== 200)
+                    return console.log("Error trying to load check ID: ", checkId);
+
+                const { method, protocol, url, state, id } = responsePayload;
+                const table = document.getElementById("checks-list-table");
+                const tr = table.insertRow(-1);
+
+                tr.insertCell(0).innerText = method;
+                tr.insertCell(1).innerText = protocol;
+                tr.insertCell(2).innerText = url;
+                tr.insertCell(3).innerHTML = `<div class="loader animated-loader ${state === "up" ? "up" : state === "down" ? "down" : "unknown"}"></div>`;
+                tr.insertCell(4).innerHTML = `<a href=/checks/delete?id=${id}>View / Delete</a>`;
+            });
+        });
+
+        if (checks.length < 5) {
+            document.getElementById("create-check-wrapper").style.display = 'block';
         }
     });
 }
 
 app.loadChecksDeletePage = function () {
-    // Get the check id from the query string, if none is found then redirect back to dashboard
-    var id = typeof (window.location.href.split('=')[1]) == 'string' && window.location.href.split('=')[1].length > 0 ? window.location.href.split('=')[1] : false;
-    if (id) {
-        // Fetch the check data
-        const searchParams = {
-            'id': id
-        };
-        app.client.request(undefined, 'api/checks', 'GET', searchParams, undefined, function (statusCode, responsePayload) {
-            if (statusCode == 200) {
 
-                // Put the hidden id field into both forms
-                var hiddenIdInputs = document.querySelectorAll("input.hiddenIdInput");
-                console.log("hiddenIdInputs: ", hiddenIdInputs);
-                for (var i = 0; i < hiddenIdInputs.length; i++) {
-                    hiddenIdInputs[i].value = responsePayload.id;
-                }
+    const id = window.location.href.split('=')[1];
 
-                // Put the data into the top form as values where needed
-                document.querySelector("#checksDelete .displayIdInput").value = responsePayload.id;
-                document.querySelector("#checksDelete .displayStateInput").value = responsePayload.state;
-                document.querySelector("#checksDelete .protocolInput").value = responsePayload.protocol;
-                document.querySelector("#checksDelete .urlInput").value = responsePayload.url;
+    if (!id)
+        return window.location = '/checks/all';
 
-            } else {
-                // If the request comes back as something other than 200, redirect back to dashboard
-                window.location = '/checks/all';
-            }
-        });
-    } else {
-        window.location = '/checks/all';
-    }
-};
+    const searchParams = { id };
+    app.client.request(undefined, 'api/checks', 'GET', searchParams, undefined, function (statusCode, responsePayload) {
+
+        if (statusCode !== 200)
+            return window.location = "checks/all";
+
+        // Put the hidden id field into both forms
+        var hiddenIdInputs = document.querySelectorAll("input.hiddenIdInput");
+        for (var i = 0; i < hiddenIdInputs.length; i++) {
+            hiddenIdInputs[i].value = responsePayload.id;
+        }
+
+        document.querySelector("#checksDelete .displayIdInput").value = responsePayload.id;
+        document.querySelector("#checksDelete .displayStateInput").value = responsePayload.state;
+        document.querySelector("#checksDelete .protocolInput").value = responsePayload.protocol;
+        document.querySelector("#checksDelete .urlInput").value = responsePayload.url;
+    });
+}
 
 // Init (bootstrapping)
 app.init = function () {
