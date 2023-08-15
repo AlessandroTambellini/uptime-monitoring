@@ -5,6 +5,7 @@
 
 const server = require('./lib/server');
 const workers = require('./lib/workers');
+const db = require("./db/index");
 const cli = require('./lib/cli');
 
 let app = {}
@@ -14,6 +15,8 @@ app.init = function (callback) {
     server.init();
 
     workers.init();
+
+    db.init();
 
     // Start the CLI, but make sure it starts last
     setTimeout(function () {

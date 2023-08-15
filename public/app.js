@@ -112,8 +112,10 @@ app.setSessionToken = function (token) {
     var tokenString = JSON.stringify(token);
     localStorage.setItem('token', tokenString);
     if (typeof (token) == 'object') {
+        console.log("token set");
         app.setLoggedInClass(true);
     } else {
+        console.log("token not set");
         app.setLoggedInClass(false);
     }
 };
@@ -191,9 +193,9 @@ app.bindForms = function () {
 
             }
         }
-
         // If the method is DELETE, the payload should be a searchParams instead
         const searchParams = method == 'DELETE' ? payload : {}
+
         // Call the API
         app.client.request(undefined, path, method, searchParams, payload, function (statusCode, responsePayload) {
             if (statusCode !== 200) {
