@@ -305,7 +305,7 @@ app.loadChecksListPage = function () {
                             tr.insertCell(0).innerText = method;
                             tr.insertCell(1).innerText = protocol;
                             tr.insertCell(2).innerText = url;
-                            tr.insertCell(3).innerHTML = `<div class="loader ${state === "up" ? "up" : state === "down" ? "down" : "unknown"}"></div>`;
+                            tr.insertCell(3).innerHTML = `<div class="loader animated-loader ${state === "up" ? "up" : state === "down" ? "down" : "unknown"}"></div>`;
                             tr.insertCell(4).innerHTML = `<a href=/checks/delete?id=${id}>View / Delete</a>`;
 
                         } else {

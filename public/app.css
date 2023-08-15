@@ -117,6 +117,7 @@ option {
 body {
     margin-inline: auto;
     font-family: var(--ff-primary), var(--ff-fallback), sans-serif;
+    font-size: var(--fs-medium);
     width: min(650px, 100% - (var(--size-400) * 2));
 }
 
@@ -286,10 +287,6 @@ table {
     width: 100%;
 }
 
-/* table * {
-    border: 2px solid red;
-} */
-
 tr {
     width: 100%;
 }
@@ -321,8 +318,11 @@ td a:active {
     border-radius: 50%;
     width: var(--fs-big);
     height: var(--fs-big);
-    animation: spin 2s linear infinite;
     margin-inline: auto;
+}
+
+.animated-loader {
+    animation: spin 2s linear infinite;
 }
 
 .loader.up {
@@ -346,36 +346,6 @@ td a:active {
         transform: rotate(360deg);
     }
 }
-
-.tooltip {
-    position: relative;
-    text-transform: lowercase;
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: bold;
-    color: hsl(var(--clr-primary));
-    font-size: var(--fs-small);
-    display: inline-block;
-}
-
-.tooltip .tooltiptext {
-    font-family: var(--ff-primary), var(--ff-fallback), sans-serif;
-    visibility: hidden;
-    background-color: hsl(var(--clr-primary));
-    color: hsl(var(--clr-neutral-bgr));
-    position: absolute;
-    animation: none !important;
-    z-index: 1;
-}
-
-.tooltip .tooltiptext>div {
-    padding: var(--fs-medium);
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-}
-
-/*  */
 
 #no-checks-msg td {
     text-align: center;
@@ -409,6 +379,23 @@ td a:active {
     color: hsl(var(--clr-neutral-txt));
 }
 
+#states-legend {
+    background-color: hsl(var(--clr-neutral-bgr));
+    border-radius: 10px;
+    padding: var(--fs-medium);
+}
+
+#states-legend h3 {
+    font-weight: var(--fw-semi-bold);
+    padding-bottom: calc(var(--fs-small) / 2);
+}
+
+dl>div {
+    display: flex;
+    width: fit-content;
+    column-gap: var(--fs-medium);
+    margin-top: var(--fs-small);
+}
 
 /* 
  *  END - checks dashboard
