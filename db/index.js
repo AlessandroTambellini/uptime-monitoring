@@ -20,18 +20,6 @@ db.init = function () {
 
 db.queries = {};
 
-db.queries.getUsers = function (data, callback) {
-    client.query(`SELECT * FROM users`, (err, res) => {
-        if (!err && res) {
-            callback(false, res);
-        }
-        else {
-            callback(err.message);
-        }
-        client.end;
-    })
-}
-
 db.queries.getUser = function (phone, callback) {
     client.query(`SELECT * FROM users WHERE phone = $1`, [phone], (err, res) => {
         // if (!err && res) is not enough becase even if there's no user matching the request,

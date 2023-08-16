@@ -6,7 +6,6 @@
 const server = require('./lib/server');
 const workers = require('./lib/workers');
 const db = require("./db/index");
-const cli = require('./lib/cli');
 
 let app = {}
 
@@ -14,13 +13,12 @@ app.init = function (callback) {
 
     server.init();
 
-    workers.init();
-
     db.init();
 
-    // Start the CLI, but make sure it starts last
+    /* Start the background workers after the server is up and the connection to
+        the database is created */
     setTimeout(function () {
-        cli.init();
+        workers.init();
         callback();
     }, 50);
 }
@@ -30,5 +28,4 @@ if (require.main === module) {
     app.init(function () { });
 }
 
-// Export the app
 module.exports = app;

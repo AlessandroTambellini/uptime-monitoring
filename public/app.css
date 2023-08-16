@@ -9,7 +9,6 @@
  */
 
 :root {
-    /* START brand-specific */
     --clr-primary: 216, 57%, 30%;
     --clr-secondary: 0, 0%, 10%;
     --clr-right: 144, 57%, 30%;
@@ -21,7 +20,6 @@
 
     --ff-primary: -apple-system;
     --ff-fallback: BlinkMacSystemFont;
-    /* START brand-specific */
 
     --fw-regular: 400;
     --fw-semi-bold: 500;
@@ -31,12 +29,6 @@
     --fs-medium: 1rem;
     --fs-big: 1.5rem;
     --fs-huge: 2.5rem;
-
-    --size-100: 0.25rem;
-    --size-200: 0.5rem;
-    --size-400: 1rem;
-    --size-600: 2rem;
-    --size-800: 3rem;
 }
 
 @media (min-width: 35em) {
@@ -456,6 +448,12 @@ dl>div {
  *
  */
 
+
+/* 
+ *  START - session-deleted
+ *
+ */
+
 #session-deleted {
     text-align: center;
 }
@@ -463,3 +461,8 @@ dl>div {
 #session-deleted h1 {
     font-size: var(--fs-big);
 }
+
+/* 
+ *  END - session-deleted
+ *
+ */
