@@ -1,14 +1,14 @@
 <h1 class="visually-hidden">create check</h1>
 <form id="checkCreate" action="api/checks" method="POST">
     <div class="formError"></div>
-    <label for="protocol-input">Protocol</label>
+    <label for="protocol-input">protocol</label>
     <input id="protocol-input" type="text" readonly placeholder="https">
 
     <label for="url-input">domain name</label></br>
     <input id="url-input" type="text" name="url" placeholder="mywebsite.com/my/path" required />
 
     <fieldset class="test">
-        <legend>success codes (HTTPS codes that should represent the "up" state)</legend>
+        <legend>success codes (HTTP codes for the "up" state)</legend>
         <label for="200">200</label>
         <input type="checkbox" id="200" class="multiselect intval" name="successCodes" value="200">
 
@@ -31,18 +31,21 @@
         <input type="checkbox" id="304" class="multiselect intval" name="successCodes" value="304">
     </fieldset>
     <p class="info-msg">for reference see:
-        <a
+        <a class="external-link"
             href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">https://developer.mozilla.org/en-US/docs/Web/HTTP/Status</a>
     </p>
 
+    <fieldset>
+        <legend>HTTP request method</legend>
 
-    <label for="method-option">HTTPS method</label>
-    <select id="method-option" name="https-method" required>
-        <!-- <option value="post">POST</option> -->
-        <option value="GET" selected>GET</option>
-        <!--  <option value="put">PUT</option>-->
-        <!--  <option value="delete">DELETE</option>-->
-    </select>
+        <label for="GET" selected>GET</label>
+        <input type="radio" name="http-method" value="GET" />
+    </fieldset>
 
-    <button type="submit">Get Started</button>
+    <p class="info-msg">for reference see:
+        <a class="external-link" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
+            ">https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods</a>
+    </p>
+
+    <button type="submit">start monitoring</button>
 </form>

@@ -21,7 +21,7 @@ app.client.request = function (headers, path, method, searchParams, payload, cal
     path = typeof (path) == 'string' ? path : '/';
     method = typeof (method) == 'string' && ['POST', 'GET', 'DELETE'].indexOf(method) > -1 ? method : 'GET';
     searchParams = typeof (searchParams) == 'object' && searchParams !== null ? searchParams : {}
-    payload = typeof (payload) == 'object' && payload !== null ? payload : {}
+        = typeof (payload) == 'object' && payload !== null ? payload : {}
     callback = typeof (callback) == 'function' ? callback : false;
 
     // For each query string parameter sent, add it to the path
@@ -182,7 +182,9 @@ app.bindForms = function () {
                 const elementClassList = elements[i].classList.value;
                 const elementValue = elements[i].value;
 
-                if (elementName === "https-method")
+                /* I called it http-method and not method, otherwise doing this.method above,
+                to take the form method, would have returned the input field with name="method" */
+                if (elementName === "http-method")
                     elementName = 'method';
 
                 if (elementName === "check-id-input")
@@ -310,7 +312,7 @@ app.loadChecksListPage = function () {
                 tr.insertCell(1).innerText = protocol;
                 tr.insertCell(2).innerText = url;
                 tr.insertCell(3).innerHTML = `<div class="loader animated-loader ${state === "up" ? "up" : state === "down" ? "down" : "unknown"}"></div>`;
-                tr.insertCell(4).innerHTML = `<a href=/checks/delete?id=${id}>View / Delete</a>`;
+                tr.insertCell(4).innerHTML = `<a href=/checks/delete?id=${id}>details</a>`;
             });
         });
 
