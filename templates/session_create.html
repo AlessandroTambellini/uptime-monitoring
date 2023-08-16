@@ -1,10 +1,10 @@
 <h1>login</h1>
 
 <form id="sessionCreate" action="/api/tokens" method="POST">
-    <div class="formError"></div>
+    <div class="formError">Error logging in</div>
 
     <label for="phone-input">phone</label>
-    <input type="text" name="phone" id="phone-input" placeholder="(415) 123-4567" />
+    <input type="text" name="phone" id="phone-input" placeholder="(415) 123-4567" required />
 
     <button type="submit">login</button>
 </form>

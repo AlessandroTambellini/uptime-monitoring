@@ -3,13 +3,19 @@
  *
  */
 
-/* general setup START */
+/* 
+ *   START - general setup
+ *
+ */
+
 :root {
     /* START brand-specific */
     --clr-primary: 216, 57%, 30%;
     --clr-secondary: 0, 0%, 10%;
     --clr-right: 144, 57%, 30%;
+    --clr-right-light: 144, 57%, 48%;
     --clr-wrong: 0, 57%, 50%;
+    --clr-wrong-light: 0, 57%, 64%;
     --clr-neutral-bgr: 0, 0%, 94%;
     --clr-neutral-txt: 0, 0%, 50%;
 
@@ -54,6 +60,7 @@
 *::before,
 *::after {
     box-sizing: border-box;
+    color: hsl(var(--clr-secondary));
 }
 
 * {
@@ -74,6 +81,10 @@ body {
 body {
     text-rendering: optimizeSpeed;
     line-height: 1.5;
+    margin-inline: auto;
+    font-family: var(--ff-primary), var(--ff-fallback), sans-serif;
+    font-size: var(--fs-medium);
+    width: min(650px, 100% - (var(--size-400) * 2));
 }
 
 p,
@@ -97,6 +108,11 @@ option {
     width: 100%;
 }
 
+*:read-only::placeholder {
+    /* Firefox */
+    opacity: 1;
+}
+
 /* Hidden element, but accessible for assistive technologies */
 .visually-hidden {
     position: absolute;
@@ -112,14 +128,17 @@ option {
 }
 
 
-/* general setup END */
+/* 
+ *   END - general setup
+ *
+ */
 
-body {
-    margin-inline: auto;
-    font-family: var(--ff-primary), var(--ff-fallback), sans-serif;
-    font-size: var(--fs-medium);
-    width: min(650px, 100% - (var(--size-400) * 2));
-}
+
+/* 
+ *   START - common components
+ *
+ */
+
 
 button {
     color: hsl(var(--clr-neutral-bgr));
@@ -134,15 +153,32 @@ form label {
     text-transform: uppercase;
     font-weight: var(--fw-semi-bold);
     font-size: var(--fs-small);
-    color: hsl(var(--clr-secondary));
     display: inline-block;
     margin-top: var(--fs-medium);
+}
+
+.formError {
+    display: none;
+    text-align: center;
+    border-style: solid;
+}
+
+.formSuccess {
+    display: none;
+    text-align: center;
+    border-style: solid;
 }
 
 hr {
     color: hsl(var(--clr-neutral-bgr));
     margin: var(--fs-big);
 }
+
+/* 
+ *   END - common components
+ *
+ */
+
 
 /*
  *  START - header and footer of the website
@@ -163,8 +199,6 @@ hr {
 
 #website-navigation nav a {
     text-decoration: none;
-    color: hsl(var(--clr-secondary));
-
 }
 
 #website-navigation nav a.loggedIn {
@@ -232,51 +266,6 @@ body.loggedIn #index-body.loggedOut {
  *
  */
 
-
-
-.warning {
-    font-style: italic;
-    color: #c83737;
-    font-size: 17px;
-    text-align: center;
-    line-height: 150%;
-    padding: 0 0 20px 0;
-}
-
-/* Form Styling for Account Creation page and others */
-.formWrapper {
-    margin: 0 auto;
-    max-width: 500px;
-    padding: 15px;
-}
-
-.formError {
-    display: none;
-    background-color: #c83737;
-    font-style: italic;
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 5px;
-    margin: 0 0 15px 0;
-    text-align: center;
-    border-color: #d87070;
-    border-width: 2px;
-    border-style: solid;
-}
-
-.formSuccess {
-    display: none;
-    background-color: #217844;
-    font-style: italic;
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 5px;
-    margin: 0 0 15px 0;
-    text-align: center;
-    border-color: #35c06d;
-    border-width: 2px;
-    border-style: solid;
-}
 
 /* 
  * START - checks dashboard

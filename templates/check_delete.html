@@ -8,14 +8,14 @@
     <input class="hiddenIdInput" type="hidden" name="uid" />
 
     <label for="check-id-input">Check ID</label>
-    <input id="check-id-input" class="displayIdInput" type="text" name="displayId" disabled />
+    <input id="check-id-input" class="displayIdInput" type="text" name="displayId" readonly />
 
     <label for="website-state-input">Current State</label>
-    <input id="website-state-input" class="displayStateInput" type="text" name="displayState" disabled />
+    <input id="website-state-input" class="displayStateInput" type="text" name="displayState" readonly />
 
     <label for="protocol-option">Protocol</label>
     <select id="protocol-option" class="protocolInput" name="protocol">
-        <option value="https" selected disabled>https://</option>
+        <option value="https" selected aria-readonly="true">https://</option>
     </select>
 
     <label for="domain-name-input">domain name</label>

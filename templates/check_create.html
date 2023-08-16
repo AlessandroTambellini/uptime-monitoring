@@ -2,10 +2,10 @@
 <form id="checkCreate" action="api/checks" method="POST">
     <div class="formError"></div>
     <label for="protocol-input">Protocol</label>
-    <input id="protocol-input" type="text" disabled placeholder="https">
+    <input id="protocol-input" type="text" readonly placeholder="https">
 
     <label for="url-input">domain name</label></br>
-    <input id="url-input" type="text" name="url" placeholder="mywebsite.com/my/path" />
+    <input id="url-input" type="text" name="url" placeholder="mywebsite.com/my/path" required />
 
     <fieldset class="test">
         <legend>success codes (HTTPS codes that should represent the "up" state)</legend>
@@ -38,7 +38,7 @@
     </fieldset>
 
     <label for="method-option">HTTPS method</label>
-    <select id="method-option" name="https-method">
+    <select id="method-option" name="https-method" required>
         <!-- <option value="post">POST</option> -->
         <option value="get" selected>GET</option>
         <!--  <option value="put">PUT</option>-->

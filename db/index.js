@@ -34,11 +34,51 @@ db.queries.getUsers = function (data, callback) {
 
 db.queries.getUser = function (phone, callback) {
     client.query(`SELECT * FROM users WHERE phone = $1`, [phone], (err, res) => {
-        if (!err && res) {
-            callback(false, res.rows[0]);
+        // if (!err && res) is not enough becase even if there's no user matching the request,
+        // a response is always given if there's no error
+        if (!err && res.rows[0]) {
+            callback(false, res.rows[0]); // the user exists
+        }
+        else if (!err && !res.rows[0]) {
+            callback(false, false); // the user doesn't exist
         }
         else {
-            callback(err, res);
+            callback(err.message, false); // something went wrong
+        }
+    })
+}
+
+db.queries.postUser = function (userObj, callback) {
+    const { name, phone } = userObj;
+    client.query("INSERT INTO users (name, phone, checks) VALUES ($1, $2, $3)", [name, phone, []], (err) => {
+        console.log("err: ", err);
+        if (!err)
+            callback(false);
+        else
+            callback(err.message);
+    })
+}
+
+db.queries.putUser = function (userObj, callback) {
+    const { checks, phone } = userObj;
+    client.query("UPDATE users SET checks = $1 WHERE phone = $2", [checks, phone], (err) => {
+        if (!err) {
+            callback(false);
+        }
+        else {
+            callback(err.message);
+        }
+    })
+}
+
+db.queries.deleteUser = function (phone, callback) {
+    client.query("DELETE FROM users WHERE phone = $1", [phone], (err, data) => {
+        console.log("err = ", err, "\ndata = ", data);
+        if (!err) {
+            callback(false);
+        }
+        else {
+            callback(err.message);
         }
     })
 }
@@ -49,7 +89,7 @@ db.queries.getToken = function (id, callback) {
             callback(false, res.rows[0]);
         }
         else {
-            callback(err, res);
+            callback(err.message, res);
         }
     })
 }
@@ -57,12 +97,13 @@ db.queries.getToken = function (id, callback) {
 db.queries.postToken = function (tokenObj, callback) {
     const { phone, id, expires } = tokenObj;
     const values = [phone, id, expires];
+    console.log(values);
     client.query("INSERT INTO tokens (phone, id, expires) VALUES ($1, $2, $3)", values, (err) => {
         if (!err) {
             callback(false);
         }
         else {
-            callback(err);
+            callback(err.message);
         }
     })
 }
@@ -73,11 +114,44 @@ db.queries.deleteToken = function (id, callback) {
             callback(false);
         }
         else {
-            callback(err);
+            callback(err.message);
         }
     })
 }
 
+db.queries.postCheck = function (checkObj, callback) {
+    const { id, userphone, protocol, url, method, successCodes } = checkObj;
+    const values = [id, userphone, protocol, url, method, successCodes];
 
+    // is it the same if I call with userPhone instead of userphone?
+    client.query("INSERT INTO checks (id, userphone, protocol, url, method, successcodes) VALUES ($1, $2, $3, $4, $5, $6)", values, (err) => {
+        if (!err) {
+            callback(false);
+        }
+        else {
+            callback(err.message);
+        }
+    })
+}
+
+db.queries.getCheck = function (id, callback) {
+    client.query("SELECT * FROM checks WHERE id = $1", [id], (err, data) => {
+        if (!err && data.rows[0])
+            callback(false, data.rows[0]);
+        else
+            callback(err.message, false);
+    })
+}
+
+db.queries.deleteCheck = function (id, callback) {
+    client.query("DELETE FROM checks WHERE id = $1", [id], (err) => {
+        if (!err) {
+            callback(false)
+        }
+        else {
+            callback(err.message);
+        }
+    })
+}
 
 module.exports = db;

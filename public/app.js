@@ -80,6 +80,10 @@ app.client.request = function (headers, path, method, searchParams, payload, cal
 
 }
 
+/* 
+ *  SESSION MANAGEMENT
+ */
+
 app.bindLogoutButton = function () {
     document.getElementById("logoutButton").addEventListener("click", function (e) {
 
@@ -90,12 +94,12 @@ app.bindLogoutButton = function () {
 };
 
 app.getSessionToken = function () {
-    var tokenString = localStorage.getItem('token');
-    if (typeof (tokenString) == 'string') {
+    const tokenString = localStorage.getItem('token');
+    if (typeof (tokenString) === "string") {
         try {
-            var token = JSON.parse(tokenString);
+            const token = JSON.parse(tokenString);
             app.config.sessionToken = token;
-            if (typeof (token) == 'object') {
+            if (typeof (token) === "object") {
                 app.setLoggedInClass(true);
             } else {
                 app.setLoggedInClass(false);
@@ -109,19 +113,17 @@ app.getSessionToken = function () {
 
 app.setSessionToken = function (token) {
     app.config.sessionToken = token;
-    var tokenString = JSON.stringify(token);
+    const tokenString = JSON.stringify(token);
     localStorage.setItem('token', tokenString);
-    if (typeof (token) == 'object') {
-        console.log("token set");
+    if (typeof (token) === "object") {
         app.setLoggedInClass(true);
     } else {
-        console.log("token not set");
         app.setLoggedInClass(false);
     }
 };
 
 app.setLoggedInClass = function (add) {
-    var target = document.querySelector("body");
+    const target = document.querySelector("body");
     if (add) {
         target.classList.add('loggedIn');
     } else {
@@ -130,19 +132,23 @@ app.setLoggedInClass = function (add) {
 }
 
 app.logUserOut = function () {
-    const tokenId = typeof (app.config.sessionToken.id) == 'string' ? app.config.sessionToken.id : false;
     const searchParams = {
-        'id': tokenId
+        "id": app.config.sessionToken.id
     }
 
     app.client.request(undefined, 'api/tokens', 'DELETE', searchParams, undefined, function (statusCode, responsePayload) {
 
         app.setSessionToken(false);
         window.location = '/session/deleted';
+
     });
 }
 
-// Bind the forms
+
+/* 
+ *  FORM MANAGEMENT
+ */
+
 app.bindForms = function () {
     const form = document.querySelector("form");
 
@@ -155,7 +161,7 @@ app.bindForms = function () {
         const formId = this.id;
         const path = this.action;
         let method = this.method.toUpperCase();
-        if (formId === "checksDelete")
+        if (formId === "checksDelete" || formId === "account-delete")
             method = "DELETE";
 
         // Hide the error message (if it's currently shown due to a previous error)
@@ -167,20 +173,19 @@ app.bindForms = function () {
         }
 
         // Turn the inputs into a payload
-        var payload = {}
-        var elements = this.elements;
-        for (var i = 0; i < elements.length; i++) {
+        let payload = {}
+        const elements = this.elements;
+        for (let i = 0; i < elements.length; i++) {
             if (elements[i].type !== 'submit') {
-                var elementName = elements[i].name;
-                var elementClassList = elements[i].classList.value;
-                var elementValue = elements[i].value;
+                let elementName = elements[i].name;
+                const elementClassList = elements[i].classList.value;
+                const elementValue = elements[i].value;
 
-                if (elementName == 'https-method') {
+                if (elementName === "https-method")
                     elementName = 'method';
-                }
-                if (elementName == "check-id-input") {
+
+                if (elementName === "check-id-input")
                     elementName = "id";
-                }
 
                 if (elementClassList.indexOf('multiselect') > -1) {
                     if (elements[i].checked) {
@@ -190,22 +195,21 @@ app.bindForms = function () {
                 } else {
                     payload[elementName] = elementValue;
                 }
-
             }
         }
+
         // If the method is DELETE, the payload should be a searchParams instead
-        const searchParams = method == 'DELETE' ? payload : {}
+        const searchParams = method === "DELETE" ? payload : {}
 
         // Call the API
         app.client.request(undefined, path, method, searchParams, payload, function (statusCode, responsePayload) {
             if (statusCode !== 200) {
-                if (statusCode == 403) {
-                    app.logUserOut();
-                } else {
-                    const error = typeof (responsePayload.Error) == 'string' ? responsePayload.Error : 'An error has occured, please try again';
-                    document.querySelector("#" + formId + " .formError").innerText = error;
-                    document.querySelector("#" + formId + " .formError").style.display = 'block';
-                }
+                if (statusCode == 403)
+                    return app.logUserOut();
+
+                const error = typeof (responsePayload.Error) == 'string' ? responsePayload.Error : 'An error has occured, please try again';
+                document.querySelector("#" + formId + " .formError").innerText = error;
+                document.querySelector("#" + formId + " .formError").style.display = 'block';
             } else {
                 // If successful, send to form response processor
                 app.formResponseProcessor(formId, payload, responsePayload);
@@ -216,63 +220,62 @@ app.bindForms = function () {
 }
 
 app.formResponseProcessor = function (formId, requestPayload, responsePayload) {
+
     // If account creation was successful, try to immediately log the user in
-    if (formId == 'accountCreate') {
-        // Take the phone and password, and use it to log the user in
-        var newPayload = {
+    if (formId === "accountCreate") {
+        const newPayload = {
             'phone': requestPayload.phone
         }
 
         app.client.request(undefined, 'api/tokens', 'POST', undefined, newPayload, function (newStatusCode, newResponsePayload) {
-            // Display an error on the form if needed
             if (newStatusCode !== 200) {
-
-                // Set the formError field with the error text
                 document.querySelector("#" + formId + " .formError").innerText = 'Sorry, an error has occured. Please try again.';
-
-                // Show (unhide) the form error field on the form
                 document.querySelector("#" + formId + " .formError").style.display = 'block';
-
-            } else {
-                // If successful, set the token and redirect the user
-                app.setSessionToken(newResponsePayload);
-                window.location = '/checks/all';
+                return;
             }
+
+            app.setSessionToken(newResponsePayload);
+            window.location = '/checks/list';
         });
     }
-    // If login was successful, set the token in localstorage and redirect the user
-    if (formId == 'sessionCreate') {
+
+    if (formId === "sessionCreate") {
         app.setSessionToken(responsePayload);
         window.location = '/checks/list';
     }
 
-    // If the user just created a new check successfully, redirect back to the dashboard
-    if (formId == 'checkCreate') {
+    if (formId === "checkCreate")
         window.location = '/checks/list';
-    }
 
-    // If the user just deleted a check, redirect them to the dashboard
-    if (formId == 'checksDelete') {
+    if (formId === "checksDelete")
         window.location = '/checks/list';
+
+    if (formId === "account-delete") {
+        app.setSessionToken(false);
+        window.location = "/";
     }
 }
 
 
-// Load data on the page
+/* 
+ *  LOAD DATA ON PAGE
+ */
+
 app.loadDataOnPage = function () {
-    // Get the current page from the body class
-    var bodyClasses = document.querySelector("body").classList;
-    var primaryClass = typeof (bodyClasses[0]) == 'string' ? bodyClasses[0] : false;
-    // Logic for dashboard page
-    if (primaryClass == 'checksList') {
-        app.loadChecksListPage();
-    }
 
-    if (primaryClass == "checksDelete")
+    const bodyClasses = document.querySelector("body").classList;
+
+    if (bodyClasses[0] === "checksList")
+        app.loadChecksListPage();
+
+    if (bodyClasses[0] === "checksDelete")
         app.loadChecksDeletePage();
+
+    if (bodyClasses[0] === "accountDelete") {
+        app.loadAccountDeletePage();
+    }
 }
 
-// Load the dashboard page specifically
 app.loadChecksListPage = function () {
 
     const searchParams = {
@@ -322,7 +325,7 @@ app.loadChecksDeletePage = function () {
     const id = window.location.href.split('=')[1];
 
     if (!id)
-        return window.location = '/checks/all';
+        return window.location = '/checks/list';
 
     const searchParams = { id };
     app.client.request(undefined, 'api/checks', 'GET', searchParams, undefined, function (statusCode, responsePayload) {
@@ -331,8 +334,8 @@ app.loadChecksDeletePage = function () {
             return window.location = "checks/all";
 
         // Put the hidden id field into both forms
-        var hiddenIdInputs = document.querySelectorAll("input.hiddenIdInput");
-        for (var i = 0; i < hiddenIdInputs.length; i++) {
+        const hiddenIdInputs = document.querySelectorAll("input.hiddenIdInput");
+        for (let i = 0; i < hiddenIdInputs.length; i++) {
             hiddenIdInputs[i].value = responsePayload.id;
         }
 
@@ -343,7 +346,22 @@ app.loadChecksDeletePage = function () {
     });
 }
 
-// Init (bootstrapping)
+app.loadAccountDeletePage = function () {
+
+    const searchParams = {
+        'phone': app.config.sessionToken?.phone
+    };
+    app.client.request(undefined, 'api/users', 'GET', searchParams, undefined, function (statusCode, responsePayload) {
+        if (statusCode == 200) {
+            document.querySelector("input.hiddenPhoneNumberInput").value = responsePayload.phone;
+        } else {
+            app.logUserOut();
+        }
+    });
+}
+
+
+
 app.init = function () {
     app.bindForms();
 
