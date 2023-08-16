@@ -10,10 +10,16 @@
     <fieldset class="test">
         <legend>success codes (HTTPS codes that should represent the "up" state)</legend>
         <label for="200">200</label>
-        <input type="checkbox" id="200" class="multiselect intval" name="successCodes" value="200" checked>
+        <input type="checkbox" id="200" class="multiselect intval" name="successCodes" value="200">
 
         <label for="201">201</label>
-        <input type="checkbox" id="201" class="multiselect intval" name="successCodes" value="201" checked>
+        <input type="checkbox" id="201" class="multiselect intval" name="successCodes" value="201">
+
+        <label for="203">203</label>
+        <input type="checkbox" id="203" class="multiselect intval" name="successCodes" value="203">
+
+        <label for="204">204</label>
+        <input type="checkbox" id="204" class="multiselect intval" name="successCodes" value="204">
 
         <label for="301">301</label>
         <input type="checkbox" id="301" class="multiselect intval" name="successCodes" value="301">
@@ -21,26 +27,19 @@
         <label for="302">302</label>
         <input type="checkbox" id="302" class="multiselect intval" name="successCodes" value="302">
 
-        <label for="400">400</label>
-        <input type="checkbox" id="400" class="multiselect intval" name="successCodes" value="400">
-
-        <label for="403">403</label>
-        <input type="checkbox" id="403" class="multiselect intval" name="successCodes" value="403">
-
-        <label for="404">404</label>
-        <input type="checkbox" id="404" class="multiselect intval" name="successCodes" value="404">
-
-        <label for="406">406</label>
-        <input type="checkbox" id="406" class="multiselect intval" name="successCodes" value="406">
-
-        <label for="500">500</label>
-        <input type="checkbox" id="500" class="multiselect intval" name="successCodes" value="500">
+        <label for="304">304</label>
+        <input type="checkbox" id="304" class="multiselect intval" name="successCodes" value="304">
     </fieldset>
+    <p class="info-msg">for reference see:
+        <a
+            href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">https://developer.mozilla.org/en-US/docs/Web/HTTP/Status</a>
+    </p>
+
 
     <label for="method-option">HTTPS method</label>
     <select id="method-option" name="https-method" required>
         <!-- <option value="post">POST</option> -->
-        <option value="get" selected>GET</option>
+        <option value="GET" selected>GET</option>
         <!--  <option value="put">PUT</option>-->
         <!--  <option value="delete">DELETE</option>-->
     </select>

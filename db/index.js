@@ -51,7 +51,6 @@ db.queries.getUser = function (phone, callback) {
 db.queries.postUser = function (userObj, callback) {
     const { name, phone } = userObj;
     client.query("INSERT INTO users (name, phone, checks) VALUES ($1, $2, $3)", [name, phone, []], (err) => {
-        console.log("err: ", err);
         if (!err)
             callback(false);
         else
@@ -73,7 +72,6 @@ db.queries.putUser = function (userObj, callback) {
 
 db.queries.deleteUser = function (phone, callback) {
     client.query("DELETE FROM users WHERE phone = $1", [phone], (err, data) => {
-        console.log("err = ", err, "\ndata = ", data);
         if (!err) {
             callback(false);
         }
@@ -97,7 +95,6 @@ db.queries.getToken = function (id, callback) {
 db.queries.postToken = function (tokenObj, callback) {
     const { phone, id, expires } = tokenObj;
     const values = [phone, id, expires];
-    console.log(values);
     client.query("INSERT INTO tokens (phone, id, expires) VALUES ($1, $2, $3)", values, (err) => {
         if (!err) {
             callback(false);
@@ -143,10 +140,31 @@ db.queries.getCheck = function (id, callback) {
     })
 }
 
+db.queries.putCheckState = function (checkObj, callback) {
+    const { id, state } = checkObj;
+    client.query("UPDATE checks SET state = $1 WHERE id = $2", [state, id], (err) => {
+        if (!err)
+            callback(false);
+        else
+            callback(err.message);
+    })
+}
+
 db.queries.deleteCheck = function (id, callback) {
     client.query("DELETE FROM checks WHERE id = $1", [id], (err) => {
         if (!err) {
             callback(false)
+        }
+        else {
+            callback(err.message);
+        }
+    })
+}
+
+db.queries.getAllChecks = function (callback) {
+    client.query("SELECT * FROM checks", [], (err, data) => {
+        if (!err && data) {
+            callback(false, data.rows);
         }
         else {
             callback(err.message);

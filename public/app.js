@@ -19,7 +19,7 @@ app.client.request = function (headers, path, method, searchParams, payload, cal
     // Set defaults
     headers = typeof (headers) == 'object' && headers !== null ? headers : {}
     path = typeof (path) == 'string' ? path : '/';
-    method = typeof (method) == 'string' && ['POST', 'GET', 'DELETE'].indexOf(method.toUpperCase()) > -1 ? method.toUpperCase() : 'GET';
+    method = typeof (method) == 'string' && ['POST', 'GET', 'DELETE'].indexOf(method) > -1 ? method : 'GET';
     searchParams = typeof (searchParams) == 'object' && searchParams !== null ? searchParams : {}
     payload = typeof (payload) == 'object' && payload !== null ? payload : {}
     callback = typeof (callback) == 'function' ? callback : false;
@@ -161,6 +161,7 @@ app.bindForms = function () {
         const formId = this.id;
         const path = this.action;
         let method = this.method.toUpperCase();
+
         if (formId === "checksDelete" || formId === "account-delete")
             method = "DELETE";
 
@@ -197,7 +198,6 @@ app.bindForms = function () {
                 }
             }
         }
-
         // If the method is DELETE, the payload should be a searchParams instead
         const searchParams = method === "DELETE" ? payload : {}
 

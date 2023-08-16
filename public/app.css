@@ -61,6 +61,7 @@
 *::after {
     box-sizing: border-box;
     color: hsl(var(--clr-secondary));
+    border: 2px solid red;
 }
 
 * {
@@ -100,6 +101,10 @@ ul {
 a,
 button {
     cursor: pointer;
+}
+
+a {
+    color: hsl(var(--clr-primary));
 }
 
 input,
@@ -172,6 +177,13 @@ form label {
 hr {
     color: hsl(var(--clr-neutral-bgr));
     margin: var(--fs-big);
+}
+
+.info-msg {
+    font-size: var(--fs-small);
+    font-style: italic;
+    color: hsl(var(--clr-neutral-txt));
+    max-width: 100%;
 }
 
 /* 
