@@ -22,50 +22,46 @@ db.queries = {};
 
 db.queries.getUser = function (phone, callback) {
     client.query(`SELECT * FROM users WHERE phone = $1`, [phone], (err, res) => {
-        // if (!err && res) is not enough becase even if there's no user matching the request,
-        // a response is always given if there's no error
-        if (!err && res.rows[0]) {
+        if (!err && res.rows[0])
             callback(false, res.rows[0]); // the user exists
-        }
-        else if (!err && !res.rows[0]) {
+        else if (!err && !res.rows[0])
             callback(false, false); // the user doesn't exist
-        }
-        else {
+        else
             callback(err.message, false); // something went wrong
-        }
     })
 }
 
 db.queries.postUser = function (userObj, callback) {
     const { name, phone } = userObj;
-    client.query("INSERT INTO users (name, phone, checks) VALUES ($1, $2, $3)", [name, phone, []], (err) => {
-        if (!err)
-            callback(false);
+    client.query("INSERT INTO users (name, phone, checks) VALUES ($1, $2, $3)", [name, phone, []], (err, data) => {
+        if (!err && data.rowCount === 1)
+            callback(false, true);
+        else if (!err && data.rowCount === 0) // something went wrong
+            callback(false, false);
+        else
+            callback(err.message);
+    });
+}
+
+
+db.queries.putUser = function (userObj, callback) {
+    const { checks, phone } = userObj;
+    client.query("UPDATE users SET checks = $1 WHERE phone = $2", [checks, phone], (err, data) => {
+        if (!err && data.rowCount === 1)
+            callback(false, true); // in handlers i can say if (!err && isDataUpdated)
+        else if (!err && data.rowCount === 0)
+            callback(false, false);
         else
             callback(err.message);
     })
 }
 
-db.queries.putUser = function (userObj, callback) {
-    const { checks, phone } = userObj;
-    client.query("UPDATE users SET checks = $1 WHERE phone = $2", [checks, phone], (err) => {
-        if (!err) {
-            callback(false);
-        }
-        else {
-            callback(err.message);
-        }
-    })
-}
-
 db.queries.deleteUser = function (phone, callback) {
-    client.query("DELETE FROM users WHERE phone = $1", [phone], (err, data) => {
-        if (!err) {
+    client.query("DELETE FROM users WHERE phone = $1", [phone], (err) => {
+        if (!err)
             callback(false);
-        }
-        else {
+        else
             callback(err.message);
-        }
     })
 }
 
