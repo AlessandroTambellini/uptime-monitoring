@@ -4,7 +4,7 @@
  */
 
 // Container for frontend application
-var app = {}
+let app = {}
 
 // Config
 app.config = {
@@ -25,9 +25,9 @@ app.client.request = function (headers, path, method, searchParams, payload, cal
     callback = typeof (callback) == 'function' ? callback : false;
 
     // For each query string parameter sent, add it to the path
-    var requestUrl = path + '?';
-    var counter = 0;
-    for (var queryKey in searchParams) {
+    let requestUrl = path + '?';
+    let counter = 0;
+    for (let queryKey in searchParams) {
         if (searchParams.hasOwnProperty(queryKey)) {
             counter++;
             // If at least one query string parameter has already been added, preprend new ones with an ampersand
@@ -40,12 +40,12 @@ app.client.request = function (headers, path, method, searchParams, payload, cal
     }
 
     // Form the http request as a JSON type
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open(method, requestUrl, true);
     xhr.setRequestHeader("Content-type", "application/json");
 
     // For each header sent, add it to the request
-    for (var headerKey in headers) {
+    for (let headerKey in headers) {
         if (headers.hasOwnProperty(headerKey)) {
             xhr.setRequestHeader(headerKey, headers[headerKey]);
         }
@@ -58,13 +58,13 @@ app.client.request = function (headers, path, method, searchParams, payload, cal
     // When the request comes back, handle the response
     xhr.onreadystatechange = function () {
         if (xhr.readyState == XMLHttpRequest.DONE) {
-            var statusCode = xhr.status;
-            var responseReturned = xhr.responseText;
+            let statusCode = xhr.status;
+            let responseReturned = xhr.responseText;
 
             // Callback if requested
             if (callback) {
                 try {
-                    var parsedResponse = JSON.parse(responseReturned);
+                    let parsedResponse = JSON.parse(responseReturned);
                     callback(statusCode, parsedResponse);
                 } catch (e) {
                     callback(statusCode, false);
@@ -75,7 +75,7 @@ app.client.request = function (headers, path, method, searchParams, payload, cal
     }
 
     // Send the payload as JSON
-    var payloadString = JSON.stringify(payload);
+    let payloadString = JSON.stringify(payload);
     xhr.send(payloadString);
 
 }
