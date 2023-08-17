@@ -182,6 +182,12 @@ app.bindForms = function () {
                 const elementClassList = elements[i].classList.value;
                 const elementValue = elements[i].value;
 
+                if (elementName === "country-code") {
+                    elementName = "phone";
+                    payload[elementName] = elementValue;
+                    continue;
+                }
+
                 /* I called it http-method and not method, otherwise doing this.method above,
                 to take the form method, would have returned the input field with name="method" */
                 if (elementName === "http-method")
@@ -195,6 +201,8 @@ app.bindForms = function () {
                         payload[elementName] = typeof (payload[elementName]) == 'object' && payload[elementName] instanceof Array ? payload[elementName] : [];
                         payload[elementName].push(elementValue);
                     }
+                } else if (elementName === "phone") {
+                    payload[elementName] += elementValue;
                 } else {
                     payload[elementName] = elementValue;
                 }

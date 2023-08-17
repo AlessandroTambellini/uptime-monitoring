@@ -7,7 +7,15 @@
     <input id="nickname-input" type="text" name="name" placeholder="Smith" required />
 
     <label for="phone-input">phone</label>
-    <input id="phone-input" type="text" name="phone" placeholder="(415) 123-4567" required />
+    <div id="phone-input-wrapper">
+        <select name="country-code">
+            <option value="33">France (+33)</option>
+            <option value="39">Italy (+39)</option>
+            <option value="1">United States (+1)</option>
+            <option value="49">Germany (+49)</option>
+        </select>
+        <input id="phone-input" type="text" name="phone" placeholder="(415) 123-4567" required />
+    </div>
 
     <button type="submit">create</button>
 </form>

@@ -103,6 +103,9 @@ input,
 select,
 option {
     width: 100%;
+    border-radius: 0;
+    border: 1px solid hsl(var(--clr-neutral-txt));
+    background: none;
 }
 
 *:read-only::placeholder {
@@ -144,7 +147,8 @@ form label {
 }
 
 form input,
-form fieldset {
+form fieldset,
+form select {
     padding: calc(var(--fs-small) / 3);
 }
 
@@ -295,6 +299,14 @@ body.loggedIn #website-navigation nav a.loggedOut {
  *  END - Index 
  *
  */
+
+#phone-input-wrapper {
+    display: flex;
+}
+
+#phone-input-wrapper select {
+    width: fit-content;
+}
 
 
 /* 
